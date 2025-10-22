@@ -1,0 +1,4 @@
+/* ---- Global Configuration Fonts ---- */
+@import "~/.config/rofi/fonts.rasi"
+
+@theme "~/.config/rofi/style.rasi"
