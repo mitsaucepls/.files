@@ -34,20 +34,25 @@ bindkey -s '^f' '^utmux-sessionizer^M'
 # Prompt
 autoload -U colors && colors # Load colors
 function rainbow_username {
-    local colors=(red yellow green blue cyan magenta white)
-    local username=$(whoami)
-    local colored_username="%b"
-    local color_index=1
+  local colors=(red yellow green blue cyan magenta white)
+  local username=$(whoami)
+  local colored_username="%b"
+  local color_index=1
 
-    for (( i=0; i<${#username}; i++ )); do
-        local char="${username:$i:1}"
-        colored_username+="%{$fg[${colors[$color_index]}]%}$char%{$reset_color%}"
-        ((color_index = (color_index + 1) % ${#colors[@]}))
-    done
+  for (( i=0; i<${#username}; i++ )); do
+    local char="${username:$i:1}"
+    colored_username+="%{$fg[${colors[$color_index]}]%}$char%{$reset_color%}"
+    ((color_index = (color_index + 1) % ${#colors[@]}))
+  done
 
-    echo $colored_username
+  if (( color_index == 0 )); then
+    color_index=1
+  fi
+
+  echo $colored_username
 }
 PS1="%B%{$fg[red]%}[$(rainbow_username)%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%1~%B%{$fg[red]%}]%{$reset_color%}$%b "
+
 setopt autocd # Automatically cd into typed directory.
 stty stop undef # Disable ctrl-s to freeze terminal.
 setopt interactive_comments
@@ -59,6 +64,11 @@ source() {
   else
     builtin source "$@"
   fi
+}
+
+# dots
+dots() {
+  git --git-dir=$HOME/.files --work-tree=$HOME "$@"
 }
 
 # History in cache directory:
@@ -80,8 +90,6 @@ export PATH=$PATH:$HOME/.config/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.nix-profile/bin
 export PATH=$PATH:$HOME/.bun/bin
-# export PATH=$PATH:$HOME/.local/share/omarchy/bin
-
 
 # Other environment variables
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -116,15 +124,15 @@ bindkey -v '^?' backward-delete-char
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
-    case $KEYMAP in
-        vicmd) echo -ne '\e[1 q';;      # block
-        viins|main) echo -ne '\e[5 q';; # beam
-    esac
+  case $KEYMAP in
+    vicmd) echo -ne '\e[1 q';;      # block
+    viins|main) echo -ne '\e[5 q';; # beam
+  esac
 }
 zle -N zle-keymap-select
 zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
+  zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+  echo -ne "\e[5 q"
 }
 zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
@@ -132,17 +140,13 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
-    tmp="$(mktemp -uq)"
-    trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
-    lf -last-dir-path="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
-    fi
-}
-
-dots() {
-    git --git-dir=$HOME/.files --work-tree=$HOME "$@"
+  tmp="$(mktemp -uq)"
+  trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
+  lf -last-dir-path="$tmp" "$@"
+  if [ -f "$tmp" ]; then
+    dir="$(cat "$tmp")"
+    [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+  fi
 }
 
 # Edit line in vim with ctrl-e:
@@ -155,6 +159,3 @@ eval "$(direnv hook zsh)"
 eval "$(rbenv init -)"
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
-
-# Added by GDK bootstrap
-eval "$(/usr/bin/mise activate zsh)"
