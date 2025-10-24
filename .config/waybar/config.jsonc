@@ -4,8 +4,8 @@
   "position": "top",
   "spacing": 0,
   "height": 26,
-  "modules-left": ["custom/omarchy", "hyprland/workspaces"],
-  "modules-center": ["clock", "custom/update", "custom/screenrecording-indicator"],
+  "modules-left": ["custom/icon", "hyprland/workspaces"],
+  "modules-center": ["clock"],
   "modules-right": [
     "group/tray-expander",
     "bluetooth",
@@ -53,20 +53,10 @@
     "persistent-workspaces": {
     }
   },
-  "custom/omarchy": {
+  "custom/icon": {
     "format": "&#x2744;",
-    "on-click": "uwsm app -- walker -p 'Start…'",
-    "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space"
+    "on-click": "uwsm app -- walker -p 'Start…'"
   },
-  "custom/update": {
-    "format": "",
-    "exec": "omarchy-update-available",
-    "on-click": "omarchy-launch-floating-terminal-with-presentation omarchy-update",
-    "tooltip-format": "Omarchy update available",
-    "signal": 7,
-    "interval": 3600
-  },
-
   "cpu": {
     "interval": 5,
     "format": "󰍛",
@@ -88,8 +78,7 @@
     "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "tooltip-format-disconnected": "Disconnected",
     "interval": 3,
-    "spacing": 1,
-    "on-click": "omarchy-launch-wifi"
+    "spacing": 1
   },
   "battery": {
     "format": "{capacity}% {icon}",
@@ -140,12 +129,6 @@
     "on-click": "uwsm stop",
     "format": " ",
     "tooltip": false
-  },
-  "custom/screenrecording-indicator": {
-    "on-click": "omarchy-cmd-screenrecord",
-    "exec": "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh",
-    "signal": 8,
-    "return-type": "json"
   },
   "tray": {
     "icon-size": 12,
