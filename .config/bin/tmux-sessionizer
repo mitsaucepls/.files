@@ -4,8 +4,8 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 else
     # Define additional directories
-    additional_dirs="~/.config/nvim ~/.config /home/lithia ~/.config/bin ~/Downloads"
-    selected=$(eval echo $(find ~/projects ~/personal -mindepth 1 -maxdepth 1 -type d) $additional_dirs | tr ' ' '\n' | fzf)
+    additional_dirs="/home/lithia ~/.config/nvim ~/.config ~/.config/bin ~/Downloads"
+    selected=$(eval echo $additional_dirs $(find ~/projects ~/personal -mindepth 1 -maxdepth 1 -type d) | tr ' ' '\n' | fzf)
 fi
 
 if [[ -z $selected ]]; then

@@ -26,6 +26,7 @@ target_output=$(cat ~/current_output)
 # Check if the action is to move the window or switch workspace
 if [[ "$2" == "move" ]]; then
   # Move the focused window to the target workspace
+  # FIXME: needs to steps to move, but sould only take one
   hyprctl dispatch movetoworkspacesilent name:$workspace
 else
   # Switch to the target workspace

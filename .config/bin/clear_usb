@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+sgdisk -o -n 0:0:0 "$1"
+mkfs.vfat "${1}1"
