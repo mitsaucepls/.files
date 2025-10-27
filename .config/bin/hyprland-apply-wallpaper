@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+# swww transition config
+FPS=60
+TYPE="any"
+DURATION=2
+BEZIER=".43,1.19,1,.4"
+SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION --transition-bezier $BEZIER"
+
+# Apply Image Wallpaper
+apply_image_wallpaper() {
+  local image_path="$1"
+  local focused_monitor="$2"
+
+  kill_wallpaper "$focused_monitor"
+
+  if ! pgrep -x "swww-daemon" >/dev/null; then
+    echo "Starting swww-daemon..."
+    swww-daemon --format xrgb &
+  fi
+
+  if [ -z $focused_monitor ]; then
+    swww img "$image_path" $SWWW_PARAMS
+  else
+    swww img -o "$focused_monitor" "$image_path" $SWWW_PARAMS
+  fi
+}
+
+apply_video_wallpaper() {
+  local video_path="$1"
+  local focused_monitor="$2"
+
+  # Check if mpvpaper is installed
+  if ! command -v mpvpaper &>/dev/null; then
+    notify-send -i "$iDIR/error.png" "E-R-R-O-R" "mpvpaper not found"
+    return 1
+  fi
+
+  kill_wallpaper "$focused_monitor"
+
+  # Apply video wallpaper using mpvpaper
+  if [ -z $focused_monitor ]; then
+    for monitor in $(hyprctl monitors -j | jq '.[].name'); do
+      mpvpaper -o "load-scripts=no no-audio --loop --gpu-api=vulkan" "$monitor" "$video_path" &
+    done
+  else
+    mpvpaper "$focused_monitor" -o "load-scripts=no no-audio --loop --gpu-api=vulkan" "$video_path" &
+  fi
+}
+
+kill_wallpaper() {
+  local focused_monitor="$1"
+
+  if [ -z $focused_monitor ]; then
+    swww kill 2>/dev/null
+    pkill mpvpaper
+  else
+    swww clear -o "$focused_monitor" 2>/dev/null
+    pkill -f "mpvpaper ${focused_monitor}" 2>/dev/null
+  fi
+}
+
+mime_type=$(file -Lb --mime-type -L $1)
+
+if [[ "$mime_type" == video/* ]]; then
+  apply_video_wallpaper "$1" "$2"
+elif [[ "$mime_type" == image/* ]]; then
+  apply_image_wallpaper "$1" "$2"
+else
+  echo "Unsupported file type: $mime_type"
+fi
+
+# wallust run "$1"
+
+

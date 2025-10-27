@@ -1,27 +1,8 @@
 #!/bin/env bash
 
-BACKGROUNDS_DIR="$HOME/personal/background"
-CURRENT_BACKGROUND_LINK="/tmp/background"
-
-# mapfile -d '' -t BACKGROUNDS < <(find "$BACKGROUNDS_DIR" -type f -print0 | sort -z)
-# TOTAL=${#BACKGROUNDS[@]}
-
-
-terminal=ghostty
-# SCRIPTSDIR="$HOME/.config/hypr/scripts"
-# wallDIR="$HOME/personal/background"
-# wallpaper_current="$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
-
 # Directory for swaync
 iDIR="$HOME/.config/swaync/images"
 iDIRi="$HOME/.config/swaync/icons"
-
-# swww transition config
-FPS=60
-TYPE="any"
-DURATION=2
-BEZIER=".43,1.19,1,.4"
-SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION --transition-bezier $BEZIER"
 
 # Check if package bc exists
 if ! command -v bc &>/dev/null; then
@@ -79,25 +60,6 @@ RANDOM_PIC_NAME=". random"
 # Rofi command
 rofi_command="rofi -i -show -dmenu -config $rofi_theme -theme-str $rofi_override"
 
-# Kill existing wallpaper daemons for video
-kill_wallpaper_for_video() {
-  swww clear -o "$focused_monitor" 2>/dev/null
-  # swww kill 2>/dev/null
-  # pkill mpvpaper 2>/dev/null
-  pkill -f "mpvpaper ${focused_monitor}" 2>/dev/null
-  pkill swaybg 2>/dev/null
-  pkill hyprpaper 2>/dev/null
-}
-
-# Kill existing wallpaper daemons for image
-kill_wallpaper_for_image() {
-  swww clear -o "$focused_monitor" 2>/dev/null
-  pkill -f "mpvpaper ${focused_monitor}" 2>/dev/null
-  pkill swaybg 2>/dev/null
-  pkill hyprpaper 2>/dev/null
-}
-
-
 # Sorting Wallpapers
 menu() {
   IFS=$'\n' sorted_options=($(sort <<<"${PICS[*]}"))
@@ -151,42 +113,6 @@ modify_startup_config() {
   fi
 }
 
-# Apply Image Wallpaper
-apply_image_wallpaper() {
-  local image_path="$1"
-
-  kill_wallpaper_for_image
-
-  if ! pgrep -x "swww-daemon" >/dev/null; then
-    echo "Starting swww-daemon..."
-    swww-daemon --format xrgb &
-  fi
-
-  swww img -o "$focused_monitor" "$image_path" $SWWW_PARAMS
-
-  # # Run additional scripts
-  # "$SCRIPTSDIR/WallustSwww.sh"
-  # sleep 2
-  # "$SCRIPTSDIR/Refresh.sh"
-  # sleep 1
-
-  # set_sddm_wallpaper
-}
-
-apply_video_wallpaper() {
-  local video_path="$1"
-
-  # Check if mpvpaper is installed
-  if ! command -v mpvpaper &>/dev/null; then
-    notify-send -i "$iDIR/error.png" "E-R-R-O-R" "mpvpaper not found"
-    return 1
-  fi
-  kill_wallpaper_for_video
-
-  # Apply video wallpaper using mpvpaper
-  mpvpaper "$focused_monitor" -o "load-scripts=no no-audio --loop --gpu-api=vulkan" "$video_path" &
-}
-
 # Main function
 main() {
   choice=$(menu | $rofi_command)
@@ -215,17 +141,9 @@ main() {
 
   # Modify the Startup_Apps.conf file based on wallpaper type
   # modify_startup_config "$selected_file"
-  ln -nsf "$selected_file" "$CURRENT_BACKGROUND_LINK"
+  ln -nsf "$selected_file" "$BACKGROUNDS_DIR/current_wallpaper"
 
-
-  # **CHECK FIRST** if it's a video or an image **before calling any function**
-  if [[ "$selected_file" =~ \.(mp4|mkv|mov|webm|MP4|MKV|MOV|WEBM)$ ]]; then
-    # wallust run "$HOME/.cache/video_preview/$choice.png"
-    apply_video_wallpaper "$selected_file"
-  else
-    # wallust run "$selected_file"
-    apply_image_wallpaper "$selected_file"
-  fi
+  hyprland-apply-wallpaper "$selected_file" "$focused_monitor"
 }
 
 # Check if rofi is already running
