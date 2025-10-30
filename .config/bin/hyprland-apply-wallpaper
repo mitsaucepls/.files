@@ -16,7 +16,7 @@ apply_image_wallpaper() {
 
   if ! pgrep -x "swww-daemon" >/dev/null; then
     echo "Starting swww-daemon..."
-    swww-daemon --format xrgb &
+    swww-daemon --format argb &
   fi
 
   if [ -z $focused_monitor ]; then
