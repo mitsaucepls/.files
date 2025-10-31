@@ -15,6 +15,9 @@ outer-margin=20
 [app-name=Spotify]
 invisible=1
 
+[app-name="flameshot"]
+invisible=1
+
 [mode=do-not-disturb]
 invisible=true
 
