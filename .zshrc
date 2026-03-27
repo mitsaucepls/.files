@@ -15,7 +15,6 @@ alias android='emulator -wipe-data -no-snapshot -no-metrics'
 alias shutdown='adb kill-server ; shutdown now'
 alias reboot='adb kill-server ; reboot'
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
-alias grep='rg'
 alias snvm='source /usr/share/nvm/init-nvm.sh'
 alias password='pwgen -s'
 alias rpcs3='QT_QPA_PLATFORM=xcb rpcs3'
@@ -26,7 +25,6 @@ alias fd='fd -H -I'
 alias mvn='./mvnw'
 alias reflector='sudo reflector --country Germany,Netherlands,France --protocol https,http --sort rate --latest 10 --save /etc/pacman.d/mirrorlist'
 alias Hyprland='if uwsm check may-start; then; exec uwsm start hyprland-uwsm.desktop; fi'
-
 
 # Key Bindings
 bindkey -s '^f' '^utmux-sessionizer^M'
