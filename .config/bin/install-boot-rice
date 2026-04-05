@@ -1,0 +1,27 @@
+#!/bin/bash
+
+install_grub_theme() {
+  wget https://github.com/voidlhf/StarRailGrubThemes/releases/latest/download/Jade.tar.gz
+
+  tar -xzf Jade.tar.gz
+
+  mv Jade /usr/share/grub/themes/
+
+  echo 'GRUB_THEME="/usr/share/grub/themes/Jade/theme.txt"' >> /etc/default/grub
+
+  grub-mkconfig -o /boot/grub/grub.cfg
+
+  rm -rf Jade.tar.gz
+}
+
+install_plymouth_theme() {
+  # Dont forget the splash kernel parameter
+  # GRUB_CMDLINE_LINUX_DEFAULT="quiet splash loglevel=3 nvidia-drm.modeset=1 nvidia_drm.fbdev=1 pcie_aspm=off pcie_port_pm=off pcie_aspm.policy=performance ibt=off"
+  git clone https://github.com/ruanyouxing/bad-apple-plymouth /usr/share/plymouth/themes/bad_apple/
+  plymouth-set-default-theme -R bad_apple
+  # nvim /usr/lib/systemd/system/plymouth-quit.service
+  # ExecStartPre=/usr/bin/sleep 4.5
+}
+
+install_grub_theme
+install_plymouth_theme

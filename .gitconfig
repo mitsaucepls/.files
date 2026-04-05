@@ -1,0 +1,18 @@
+[credential]
+    helper = store
+[user]
+    email = markus.siegert@linux.com
+    name = Markus Siegert
+    signingkey = D8CC7D335A02CFF4E1A044B388E2217A7F36ADCD
+[core]
+    editor = nvim
+[commit]
+    gpgSign = true
+[init]
+    defaultBranch = master
+[includeIf "gitdir:~/projects/"]
+    path = ~/projects/.gitconfig
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = false
