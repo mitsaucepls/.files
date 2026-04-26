@@ -12,7 +12,7 @@ alias al='sl'
 alias du='du -ah'
 alias grep='grep --color=auto'
 alias android='emulator -wipe-data -no-snapshot -no-metrics'
-alias shutdown='adb kill-server ; shutdown now'
+alias shutdown='adb kill-server ; shutdown -h now'
 alias reboot='adb kill-server ; reboot'
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias snvm='source /usr/share/nvm/init-nvm.sh'
@@ -24,7 +24,7 @@ alias cam='mpv av://v4l2:/dev/video0 --profile=low-latency --untimed'
 alias fd='fd -H -I'
 alias mvn='./mvnw'
 alias reflector='sudo reflector --country Germany,Netherlands,France --protocol https,http --sort rate --latest 10 --save /etc/pacman.d/mirrorlist'
-alias Hyprland='if uwsm check may-start; then; exec uwsm start hyprland-uwsm.desktop; fi'
+alias Hyprland='if uwsm check may-start; then; exec uwsm start hyprland.desktop; fi'
 
 # Key Bindings
 bindkey -s '^f' '^utmux-sessionizer^M'
@@ -86,6 +86,8 @@ _comp_options+=(globdots) # Include hidden files.
 export PATH=$PATH:/opt/google/chrome
 export PATH=$PATH:$HOME/.config/bin
 export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:$HOME/perl5/bin
 export PATH=$PATH:$HOME/.nix-profile/bin
 export PATH=$PATH:$HOME/.bun/bin
 
@@ -97,11 +99,11 @@ export LC_ALL="en_US.UTF-8"
 export EDITOR="nvim"
 export ANDROID_AVD_HOME="$HOME/.config/.android/avd"
 export JAVA_HOME=/usr/lib/jvm/default
-export __GL_SYNC_DISPLAY_DEVICE=DP-1
-export LIBVA_DRIVER_NAME=nvidia
-export XDG_SESSION_TYPE=wayland
-export GBM_BACKEND=nvidia-drm
-export __GLX_VENDOR_LIBRARY_NAME=nvidia
+# export __GL_SYNC_DISPLAY_DEVICE=DP-6
+# export LIBVA_DRIVER_NAME=nvidia
+# export XDG_SESSION_TYPE=wayland
+# export GBM_BACKEND=nvidia-drm
+# export __GLX_VENDOR_LIBRARY_NAME=nvidia
 export WLR_NO_HARDWARE_CURSORS=1
 unset GIT_SSH_COMMAND
 unset GIT_SSH
@@ -153,7 +155,11 @@ bindkey '^e' edit-command-line
 bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
-eval "$(direnv hook zsh)"
-eval "$(rbenv init -)"
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
+
+PATH="/home/master/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/master/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/master/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/master/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/master/perl5"; export PERL_MM_OPT;
