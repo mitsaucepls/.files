@@ -1,0 +1,6 @@
+-- Define terminal tag to style them uniformly
+-- windowrule {
+--   name = terminal
+--   tag = +terminal
+--   match:class = (Alacritty|kitty|com.mitchellh.ghostty)
+-- }
