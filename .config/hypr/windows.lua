@@ -22,6 +22,6 @@ hl.window_rule({
 
 
 -- App-specific tweaks
-require("apps.lua.waypaper")
-require("apps.lua.system")
-require("apps.lua.terminals")
+require("apps.waypaper")
+require("apps.system")
+require("apps.terminals")
