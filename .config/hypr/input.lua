@@ -43,18 +43,18 @@ hl.config({
 
 
 -- Scroll nicely in the terminal
-hl.window_rule {
+hl.window_rule({
   name = "nicescroll",
   scroll_touchpad = 1.5,
   match = {
     class = "(Alacritty|kitty)"
   }
-}
+})
 
-hl.window_rule {
+hl.window_rule({
   name = "ghoscroll",
   scroll_touchpad = 0.2,
   match = {
     class = "com.mitchellh.ghostty"
   }
-}
+})

@@ -3,8 +3,8 @@ hl.env("BACKGROUNDS_DIR", "$HOME/personal/background/")
 
 -- Extra env variables
 -- Cursor size
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
+-- hl.env("XCURSOR_SIZE", "24")
+-- hl.env("HYPRCURSOR_SIZE", "24")
 
 -- Force all apps to use Wayland
 hl.env("GDK_BACKEND", "wayland,x11,*")
@@ -45,7 +45,7 @@ hl.env("TERMINAL", "ghostty")
 -- # additional ENV's for nvidia. Caution, activate with care
 -- hl.env("GBM_BACKEND", "nvidia-drm")
 
-hl.env("__GL_GSYNC_ALLOWED", "1 --adaptive Vsync")
+hl.env("__GL_GSYNC_ALLOWED", "1") --adaptive Vsync
 --hl.env("__NV_PRIME_RENDER_OFFLOAD", "1")
 --hl.env("__VK_LAYER_NV_optimus", "NVIDIA_only")
 --hl.env("WLR_DRM_NO_ATOMIC", "1")

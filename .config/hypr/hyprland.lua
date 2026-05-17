@@ -1,7 +1,7 @@
 require("monitors")
+require("monitors_conf")
 require("input")
 require("bindings")
-require("envs")
 require("looknfeel")
 require("windows")
 require("autostart")

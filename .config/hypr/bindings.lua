@@ -1,6 +1,6 @@
 local ipc = "qs -c noctalia-shell ipc call"
 -- Application bindings
-hl.bind("SUPER + return", hl.dsp.exec_cmd("ghostty"))
+hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("ghostty"))
 hl.bind("SUPER + R", hl.dsp.exec_cmd("nemo"))
 
 -- If your web app url contains #, type it as ## to prevent hyperland treat it as comments
@@ -8,7 +8,7 @@ hl.bind("SUPER + R", hl.dsp.exec_cmd("nemo"))
 -- bindd = SUPER SHIFT, E, Excalidraw, exec, hyprland-launch-or-focus Excalidraw "hyprland-launch-webapp 'https://excalidraw.com/'"
 -- bindd = SUPER SHIFT, M, Music, exec, hyprland-launch-or-focus spotify
 
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(ipc .. "launcher toggle"))
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(ipc .. " launcher toggle"))
 
 hl.bind("SUPER + I", hl.dsp.window.fullscreen())
 hl.bind("SUPER + SHIFT + PERIOD", hl.dsp.window.float()) -- Float Mode
@@ -20,9 +20,9 @@ hl.bind("SUPER + SHIFT + X", hl.dsp.exec_cmd("XDG_CURRENT_DESKTOP=sway flameshot
 
 -- FEATURES / EXTRAS (UserScripts)
 hl.bind("SUPER + W", hl.dsp.exec_cmd("waypaper"))
-hl.bind("SUPER + E", hl.dsp.exec_cmd(ipc .. "settings toggle"))
-hl.bind("SUPER + V", hl.dsp.exec_cmd(ipc .. "launcher clipboard"))
-hl.bind("SUPER + B", hl.dsp.exec_cmd("hyprland-toggle-blur"))
+hl.bind("SUPER + E", hl.dsp.exec_cmd(ipc .. " settings toggle"))
+hl.bind("SUPER + V", hl.dsp.exec_cmd(ipc .. " launcher clipboard"))
+-- hl.bind("SUPER + B", hl.config({ decoration = { blur = { enabled = true } } }))
 
 hl.bind("SUPER + Q", hl.dsp.window.close()) -- close active (not kill)
 

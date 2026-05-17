@@ -25,6 +25,7 @@ alias fd='fd -H -I'
 alias mvn='./mvnw'
 alias reflector='sudo reflector --country Germany,Netherlands,France --protocol https,http --sort rate --latest 10 --save /etc/pacman.d/mirrorlist'
 alias Hyprland='if uwsm check may-start; then; exec uwsm start hyprland.desktop; fi'
+alias sdkmanager='sudo env ANDROID_HOME=/opt/android-sdk ANDROID_SDK_ROOT=/opt/android-sdk /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/opt/android-sdk'
 
 # Key Bindings
 bindkey -s '^f' '^utmux-sessionizer^M'
@@ -99,7 +100,7 @@ export LC_ALL="en_US.UTF-8"
 export EDITOR="nvim"
 export ANDROID_AVD_HOME="$HOME/.config/.android/avd"
 export JAVA_HOME=/usr/lib/jvm/default
-# export __GL_SYNC_DISPLAY_DEVICE=DP-6
+export __GL_SYNC_DISPLAY_DEVICE=DP-6
 # export LIBVA_DRIVER_NAME=nvidia
 # export XDG_SESSION_TYPE=wayland
 # export GBM_BACKEND=nvidia-drm
